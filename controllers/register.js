@@ -74,11 +74,22 @@ exports.register = async (req, res) => {
       expireSeconds: 30,
     });
 
-    res.send(JSON.stringify({status:500,message: result}))
+    res.send(JSON.stringify(result))
+
   }catch(err){
-    res.send(JSON.stringify({status:500,message: err}));
+    if(!!err.json){
+      res.send(JSON.stringify(err.json));
+    }else{
+      res.send(JSON.stringify(err));
+    }
     return;
   }
 
-  await registerModel.create({username:'1', publicKey:'2', creator:'3', cost:'4'});
+  await registerModel.create({
+    username: req.body.username,
+    publicKey: req.body.publicKey,
+    creator: admin,
+    cost:'',
+    bytes:3000
+  });
 };
