@@ -18,7 +18,8 @@ const registerSchema = new mongoose.Schema({
 });
 
 // 设置静态方法，给外外层调用
-registerSchema.static.save = async function({username, publicKey, creator, cost, bytes}){
+// 然而外层并未使用
+registerSchema.statics.save = async function({username, publicKey, creator, cost, bytes}){
   return this.create({username, publicKey, creator, cost, bytes})
 };
 
