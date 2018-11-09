@@ -1,9 +1,7 @@
 const newsModel = new require('../models/news');
 
 exports.query = async (req, res) => {
-  // console.log('req',req.query);
   const result = await newsModel.query(req.query);
-  // console.log(result);
   res.send(JSON.stringify(result))
 };
 
@@ -20,14 +18,20 @@ exports.updateNews = async (req, res) => {
   }else if(Object.keys(doc).length === 0){
     res.send('无修改数据')
   }
-  const result = await newsModel.updateNews(_id, doc);
-  res.send(JSON.stringify(result));
+  newsModel.updateNews(_id, doc).then(
+    result => res.send(JSON.stringify(result))
+  ).catch(
+    ()=>res.send(JSON.stringify('输入出错，请检查输入字段'))
+  );
 };
 
 exports.removeNews = async (req, res) => {
   if(!req.body._id){
     res.send('请输入文章id')
   }
-  const result = await newsModel.removeNews(req.body._id);
-  res.send(JSON.stringify(result));
+  newsModel.removeNews(req.body._id).then(
+    result => res.send(JSON.stringify(result))
+  ).catch(
+    ()=>res.send(JSON.stringify('输入出错，请检查输入字段'))
+  );
 };
